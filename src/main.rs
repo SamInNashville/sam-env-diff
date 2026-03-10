@@ -112,8 +112,7 @@ fn main() {
                 process::exit(2);
             }
             if !cli.bot {
-                // Still print console when -o is used without --bot
-                formatter::console::print_console(&diff, &left_path, &right_path, cli.reveal, cli.all);
+                eprintln!("✓ Written to {}", out_path);
             }
         }
     } else {
