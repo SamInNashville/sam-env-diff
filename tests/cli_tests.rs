@@ -53,8 +53,8 @@ fn bot_mode_valid_json() {
         .unwrap();
 
     let stdout = String::from_utf8(output.stdout).unwrap();
-    let parsed: serde_json::Value = serde_json::from_str(&stdout)
-        .expect("bot mode output should be valid JSON");
+    let parsed: serde_json::Value =
+        serde_json::from_str(&stdout).expect("bot mode output should be valid JSON");
 
     assert!(parsed["left"].is_string());
     assert!(parsed["right"].is_string());
@@ -74,19 +74,19 @@ fn bot_mode_no_ansi() {
 
     let stdout = String::from_utf8(output.stdout).unwrap();
     // ANSI escape starts with ESC (0x1b)
-    assert!(!stdout.contains('\x1b'), "bot mode should not contain ANSI codes");
+    assert!(
+        !stdout.contains('\x1b'),
+        "bot mode should not contain ANSI codes"
+    );
 }
 
 #[test]
 fn bot_help_valid_json() {
-    let output = cmd()
-        .arg("--bot-help")
-        .output()
-        .unwrap();
+    let output = cmd().arg("--bot-help").output().unwrap();
 
     let stdout = String::from_utf8(output.stdout).unwrap();
-    let parsed: serde_json::Value = serde_json::from_str(&stdout)
-        .expect("--bot-help output should be valid JSON");
+    let parsed: serde_json::Value =
+        serde_json::from_str(&stdout).expect("--bot-help output should be valid JSON");
 
     assert_eq!(parsed["tool"], "sam-env-diff");
     assert!(parsed["flags"].is_object());
@@ -108,8 +108,8 @@ fn output_to_file() {
         .code(1); // differences exist
 
     let content = std::fs::read_to_string(out).expect("output file should exist");
-    let parsed: serde_json::Value = serde_json::from_str(&content)
-        .expect("output file should be valid JSON");
+    let parsed: serde_json::Value =
+        serde_json::from_str(&content).expect("output file should be valid JSON");
     assert!(parsed["ok"].is_boolean());
     std::fs::remove_file(out).ok();
 }
@@ -134,7 +134,12 @@ fn values_masked_by_default() {
 #[test]
 fn reveal_shows_full_values() {
     let output = cmd()
-        .args([&fixtures("left.env"), &fixtures("right.env"), "--bot", "--reveal"])
+        .args([
+            &fixtures("left.env"),
+            &fixtures("right.env"),
+            "--bot",
+            "--reveal",
+        ])
         .output()
         .unwrap();
 
@@ -144,7 +149,11 @@ fn reveal_shows_full_values() {
     // With --reveal, values should NOT start with ****
     for entry in parsed["changed"].as_array().unwrap() {
         let left = entry["left"].as_str().unwrap();
-        assert!(!left.starts_with("****"), "value should not be masked with --reveal: {}", left);
+        assert!(
+            !left.starts_with("****"),
+            "value should not be masked with --reveal: {}",
+            left
+        );
     }
 }
 

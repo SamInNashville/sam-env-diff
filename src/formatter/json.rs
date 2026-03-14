@@ -1,8 +1,8 @@
+use crate::differ::DiffResult;
+use crate::masker::maybe_mask;
 /// Bot JSON output formatter.
 /// Token-optimized: short keys, no nulls, match is a count.
 use serde::Serialize;
-use crate::differ::DiffResult;
-use crate::masker::maybe_mask;
 
 #[derive(Serialize)]
 pub struct BotMissingEntry {
@@ -44,16 +44,28 @@ pub fn format_json(
     BotOutput {
         left: left_path.to_string(),
         right: right_path.to_string(),
-        missing: diff.missing.iter().map(|e| BotMissingEntry { key: e.key.clone() }).collect(),
-        extra: diff.extra.iter().map(|e| BotExtraEntry {
-            key: e.key.clone(),
-            val: maybe_mask(e.left_val.as_deref().unwrap_or(""), reveal),
-        }).collect(),
-        changed: diff.changed.iter().map(|e| BotChangedEntry {
-            key: e.key.clone(),
-            left: maybe_mask(e.left_val.as_deref().unwrap_or(""), reveal),
-            right: maybe_mask(e.right_val.as_deref().unwrap_or(""), reveal),
-        }).collect(),
+        missing: diff
+            .missing
+            .iter()
+            .map(|e| BotMissingEntry { key: e.key.clone() })
+            .collect(),
+        extra: diff
+            .extra
+            .iter()
+            .map(|e| BotExtraEntry {
+                key: e.key.clone(),
+                val: maybe_mask(e.left_val.as_deref().unwrap_or(""), reveal),
+            })
+            .collect(),
+        changed: diff
+            .changed
+            .iter()
+            .map(|e| BotChangedEntry {
+                key: e.key.clone(),
+                left: maybe_mask(e.left_val.as_deref().unwrap_or(""), reveal),
+                right: maybe_mask(e.right_val.as_deref().unwrap_or(""), reveal),
+            })
+            .collect(),
         match_count: diff.match_entries.len(),
         ok: diff.ok,
     }

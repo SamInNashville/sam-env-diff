@@ -5,7 +5,9 @@ edition = "2021"
 authors = ["Sam M."]
 license = "MIT"
 description = "Diff your .env files. Secrets stay masked."
-repository = "https://github.com/samdigital/sam-env-diff-rs"
+repository = "https://github.com/SamInNashville/sam-env-diff"
+homepage = "https://github.com/SamInNashville/sam-env-diff"
+readme = "README.md"
 
 [[bin]]
 name = "sam-env-diff"

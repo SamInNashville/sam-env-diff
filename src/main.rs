@@ -1,8 +1,8 @@
-mod parser;
-mod differ;
-mod masker;
-mod formatter;
 mod bot_help;
+mod differ;
+mod formatter;
+mod masker;
+mod parser;
 
 use clap::Parser;
 use std::process;

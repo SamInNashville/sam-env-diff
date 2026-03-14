@@ -58,10 +58,26 @@ pub fn diff_env_maps(left: &EnvMap, right: &EnvMap) -> DiffResult {
         });
     }
 
-    let missing: Vec<DiffEntry> = entries.iter().filter(|e| e.status == DiffStatus::Missing).cloned().collect();
-    let extra: Vec<DiffEntry> = entries.iter().filter(|e| e.status == DiffStatus::Extra).cloned().collect();
-    let changed: Vec<DiffEntry> = entries.iter().filter(|e| e.status == DiffStatus::Changed).cloned().collect();
-    let match_entries: Vec<DiffEntry> = entries.iter().filter(|e| e.status == DiffStatus::Match).cloned().collect();
+    let missing: Vec<DiffEntry> = entries
+        .iter()
+        .filter(|e| e.status == DiffStatus::Missing)
+        .cloned()
+        .collect();
+    let extra: Vec<DiffEntry> = entries
+        .iter()
+        .filter(|e| e.status == DiffStatus::Extra)
+        .cloned()
+        .collect();
+    let changed: Vec<DiffEntry> = entries
+        .iter()
+        .filter(|e| e.status == DiffStatus::Changed)
+        .cloned()
+        .collect();
+    let match_entries: Vec<DiffEntry> = entries
+        .iter()
+        .filter(|e| e.status == DiffStatus::Match)
+        .cloned()
+        .collect();
 
     let ok = missing.is_empty() && extra.is_empty() && changed.is_empty();
 
@@ -81,7 +97,10 @@ mod tests {
     use std::collections::HashMap;
 
     fn map(pairs: &[(&str, &str)]) -> EnvMap {
-        pairs.iter().map(|(k, v)| (k.to_string(), v.to_string())).collect::<HashMap<_, _>>()
+        pairs
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.to_string()))
+            .collect::<HashMap<_, _>>()
     }
 
     #[test]

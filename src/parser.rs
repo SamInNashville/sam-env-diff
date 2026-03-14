@@ -109,8 +109,8 @@ pub fn parse_env(content: &str) -> EnvMap {
 
 /// Parse a .env file from disk.
 pub fn parse_env_file(path: &str) -> Result<EnvMap, String> {
-    let content = std::fs::read_to_string(path)
-        .map_err(|e| format!("Cannot read '{}': {}", path, e))?;
+    let content =
+        std::fs::read_to_string(path).map_err(|e| format!("Cannot read '{}': {}", path, e))?;
     Ok(parse_env(&content))
 }
 
